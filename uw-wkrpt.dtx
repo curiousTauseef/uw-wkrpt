@@ -1012,9 +1012,6 @@
 \newcommand{\faculty}[1]{\renewcommand{\@faculty}{#1}}
   \newcommand{\@faculty}{\ClassError{uw-wkrpt}%
     {No \noexpand\faculty given}{}}
-\newcommand{\dept}[1]{\renewcommand{\@dept}{#1}}
-  \newcommand{\@dept}{\ClassError{uw-wkrpt}%
-    {No \noexpand\dept given}{}}
 \newcommand{\userid}[1]{\renewcommand{\@userid}{#1}}
   \newcommand{\@userid}{\ClassError{uw-wkrpt}%
     {No \noexpand\userid given}{}}
@@ -1086,7 +1083,6 @@
 \newcommand{\theemployeraddress}{\@employeraddress}
 \newcommand{\theschool}{\@school}
 \newcommand{\thefaculty}{\@faculty}
-\newcommand{\thedept}{\@dept}
 \newcommand{\theuserid}{\@userid}
 \newcommand{\theemail}{\@email}
 \newcommand{\theterm}{\@term}
@@ -1134,7 +1130,7 @@
   \let \footnote \thanks
   \begin{center}
     \ifthenelse{\boolean{uwwkrpt@ne}}
-    {\large \MakeTextUppercase{\@school} \par \@faculty \par \@dept}{\large \MakeTextUppercase{\@school} \par \@faculty}%
+    {\large \MakeTextUppercase{\@school} \par \@faculty \par \@program}{\large \MakeTextUppercase{\@school} \par \@faculty}%
   \end{center}
   \null\vfill%
   \begin{center}%

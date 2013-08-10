@@ -95,6 +95,7 @@ examples-dvi : $(PACKAGE).cls    \
                $(PACKAGE)-cecs.dvi \
 	       $(PACKAGE)-ece.dvi  \
 	       $(PACKAGE)-math.dvi \
+               $(PACKAGE)-ne.dvi \
 	       $(PACKAGE)-se.dvi   ;
 
 pdf : $(PACKAGE).pdf ;
@@ -103,6 +104,7 @@ examples-pdf : $(PACKAGE).cls    \
                $(PACKAGE)-cecs.pdf \
 	       $(PACKAGE)-ece.pdf  \
 	       $(PACKAGE)-math.pdf \
+	       $(PACKAGE)-ne.pdf \
 	       $(PACKAGE)-se.pdf   ;
 
 %.cls : %.ins %.dtx
