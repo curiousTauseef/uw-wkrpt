@@ -791,6 +791,10 @@
 \DeclareOption{se}{%
   \uwwkrpt@setrue
   \write10{([se] Software Engineering report)}}
+\newif\ifuwwkrpt@ne \uwwkrpt@nefalse
+\DeclareOption{ne}{%
+  \uwwkrpt@netrue
+  \write10{([ne]Nanotechnology Engineering report)}}
 %    \end{macrocode}
 %
 % \changes{v2.0}{2003/04/26}{Select between different programs'
@@ -800,9 +804,10 @@
 % he specifies smaller type, and use 12 pt.\ nevertheless.
 % 
 % E\&CE guidelines requre work reports to be set in 11 pt.\ type.
-% 
+% NE guidlines also require 11 pt. \ type.
+%
 %    \begin{macrocode}
-\ifthenelse{\boolean{uwwkrpt@ece}}{%
+\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@ne} }{%
   \def\uwwkrpt@textsize{11pt}}{%
   \def\uwwkrpt@textsize{12pt}}
 
@@ -854,7 +859,7 @@
 % and bottom margins will be set to 1.0 inches wide.  This is required
 % by Section 9.8.5 of the CESRM~\cite{ref:cesrm}.
 %
-% For ECE work reports, the left margin will be set to 1.5 inches wide;
+% For ECE and NE work reports, the left margin will be set to 1.5 inches wide;
 % the other margins will be 1.0 inches wide.
 %
 % For SE work reports, all margins are set to 1.0 inches wide.
@@ -867,7 +872,7 @@
 \setlength{\marginr}{1.5in}
 \setlength{\margintb}{1in}
 
-\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@se}}
+\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@ne} \or \boolean{uwwkrpt@se}}
   {\setlength{\marginr}{1in}}{}
 
 \ifthenelse{\boolean{uwwkrpt@se}}
@@ -897,7 +902,7 @@
 %    \begin{macrocode}
 \RequirePackage{setspace}
 \newcommand{\uwwkrpt@spacing}{\doublespacing}
-\ifthenelse{\boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ece}}
+\ifthenelse{\boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@ne}}
   {\renewcommand{\uwwkrpt@spacing}{\onehalfspacing}}{}
 %    \end{macrocode}
 %
@@ -1007,6 +1012,9 @@
 \newcommand{\faculty}[1]{\renewcommand{\@faculty}{#1}}
   \newcommand{\@faculty}{\ClassError{uw-wkrpt}%
     {No \noexpand\faculty given}{}}
+\newcommand{\dept}[1]{\renewcommand{\@dept}{#1}}
+  \newcommand{\@dept}{\ClassError{uw-wkrpt}%
+    {No \noexpand\dept given}{}}
 \newcommand{\userid}[1]{\renewcommand{\@userid}{#1}}
   \newcommand{\@userid}{\ClassError{uw-wkrpt}%
     {No \noexpand\userid given}{}}
@@ -1078,6 +1086,7 @@
 \newcommand{\theemployeraddress}{\@employeraddress}
 \newcommand{\theschool}{\@school}
 \newcommand{\thefaculty}{\@faculty}
+\newcommand{\thedept}{\@dept}
 \newcommand{\theuserid}{\@userid}
 \newcommand{\theemail}{\@email}
 \newcommand{\theterm}{\@term}
@@ -1124,7 +1133,8 @@
   \let\footnoterule\relax
   \let \footnote \thanks
   \begin{center}
-    {\large \MakeTextUppercase{\@school} \par \@faculty}%
+    \ifthenelse{\boolean{uwwkrpt@ne}}
+    {\large \MakeTextUppercase{\@school} \par \@faculty \par \@dept}{\large \MakeTextUppercase{\@school} \par \@faculty}%
   \end{center}
   \null\vfill%
   \begin{center}%
@@ -1203,6 +1213,7 @@
   \ifthenelse{\boolean{uwwkrpt@math}}
     {\raggedright}{}
 %    \end{macrocode}
+% @Michael I think NE also - to be verified
 %
 % Using |\@blockletter|, we decide whether we should be using modified
 % block layout, or full block.  For the declaration of this macro, see
@@ -1223,12 +1234,12 @@
 % address; then the current date; then the receiver of the report and
 % his address; and finally the salutation.
 %
-% Note that for Software Engineering reports, the letter is addressed to
+% Note that for Software Engineering / Nanotech Engineering reports, the letter is addressed to
 % the director, not the chair.
 %    \begin{macrocode}
   \noindent\@@author\\\@address\par\noindent%
   \@@date \par\noindent%
-  \ifthenelse{\boolean{uwwkrpt@se}}
+  \ifthenelse{\boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ne} }
     {\@chair, Director\\*\@chairaddress\par\noindent}%
     {\@chair, Chair\\*\@chairaddress\par\noindent}%
   Dear \@chair:%
@@ -1237,7 +1248,7 @@
 % Create a subject line, much like formal business letters of old. This is
 % omitted from Software Engineering reports.
 %    \begin{macrocode}
-  \ifthenelse{\boolean{uwwkrpt@se}}
+  \ifthenelse{\boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ne}}
     {\par}
     {\begin{center}\textbf{Re: Submission of my work term report.}\end{center}}}
 %    \end{macrocode}
@@ -1253,11 +1264,12 @@
   than what is mentioned above, in writing this report.
 %    \end{macrocode}
 %
-% The E\&CE~\cite{ref:ecewrg} and SE~\cite{ref:sewrg} guidelines require
+% The E\&CE~\cite{ref:ecewrg}, NE~\cite{ref:newrg} and SE~\cite{ref:sewrg} guidelines require
 % an additional boilerplate message.  I will include this boilerplate in
 % the Math report, even though it does not require it.
 %    \begin{macrocode}
   \ifthenelse{\boolean{uwwkrpt@ece}
+              \or \boolean{uwwkrpt@ne}
               \or \boolean{uwwkrpt@math}
               \or \boolean{uwwkrpt@se}}
     {I also confirm that this report has not been previously submitted 
@@ -1955,6 +1967,11 @@
 % ``Software engineering work report guidelines''
 % \url{http://www.softeng.uwaterloo.ca/Current/work_report_guidelines.htm}
 % (current 24 Apr. 2003.)
+% \bibitem{ref:newrg} 
+% W.M. Loucks PEng, G.H. Freeman PEng, J.A. Barby PEng 
+% ``Nanotechnology engineering work term report guidelines''
+% \url{https://sun5.vlsi.uwaterloo.ca/~ecepc/nepc/WKRPTguide.html}
+% (current 10 Aug. 2013.)
 % \bibitem{ref:confwtr} 
 % W. M. Loucks PEng,
 % ``Confidential work term reports.''
