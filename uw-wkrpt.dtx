@@ -1640,7 +1640,7 @@
 % The ``Table of Contents'' then follow in logical order, after any
 % preliminary sections.
 %    \begin{macrocode}
-\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@se}}{%
+\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ne}}{%
   \renewcommand{\@setletterpagenum}{\setcounter{page}{2}}
   \renewcommand{\@setpostletterpagenum}{}
 }{}
@@ -1722,7 +1722,7 @@
 % So we add the ``List of Figures'' and ``List of Tables'' to the 
 % ``Table of Contents''.
 %    \begin{macrocode}
-\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@se}}{%
+\ifthenelse{\boolean{uwwkrpt@ece} \or \boolean{uwwkrpt@se} \or \boolean{uwwkrpt@ne} }{%
   \renewcommand{\listoffigures@intoc}{%
     \addcontentsline{toc}{section}{List of Figures}}
   \renewcommand{\listoftables@intoc}{%
